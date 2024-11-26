@@ -11,8 +11,8 @@ const app= express();
 
 app.use(cors({
   origin: ['http://localhost:5173', 
-    "https://deals-dray-wine.vercel.app",
-    "https://dealsdray.abhiramverse.tech"],
+    "https://rbac.abhiramverse.tech/",
+    "https://rbac-admin-sage.vercel.app/"],
   credentials: true,
 }));
 app.use(express.json());
