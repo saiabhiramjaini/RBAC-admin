@@ -1,16 +1,16 @@
 # Role Based Access Control Dashboard for Admin
 
-
 ## Deployed links
 
 - [Github repo](https://github.com/saiabhiramjaini/DealsDray)
-
 
 - [Client Link](https://rbac.abhiramverse.tech/)
 
 - [NPM Package Link](https://www.npmjs.com/package/@abhiram2k03/rbac-common)
 
 - [API link](https://server-rbac.abhiramverse.tech/)
+
+- [Docker Image Link](https://hub.docker.com/repository/docker/saiabhiramjaini/rbac-server/general)
 
 ## Tech Stack
 
@@ -287,6 +287,10 @@ The server follows the **MVC architecture**.
 
 ### Containerization:
 - Used Docker for Containerization and the image will be uploaded by CI/CD to docker hub.
+- To pull the image, run docker and execute the below command:
+```
+docker pull saiabhiramjaini/rbac-server:latest
+```
 ![image](https://github.com/user-attachments/assets/9ca89622-e1cc-4f6f-bf60-1ba9d1a2c53c)
 
 ### Server:
