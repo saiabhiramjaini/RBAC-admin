@@ -353,8 +353,8 @@ Contributions are welcome! Follow the steps below to contribute:
 
 2. **Clone the Forked Repository**
    ```bash
-   git clone https://github.com/your-username/DealsDray.git
-   cd DealsDray
+   git clone https://github.com/your-username/RBAC-admin.git
+   cd RBAC-admin
    ```
 
 3. **Create a Branch**
