@@ -40,9 +40,11 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/rbac-server:latest
+            sudo docker stop rbac-server || true
+            sudo docker rm rbac-server || true
             sudo docker run -d \
               -p 8080:8080 \
-              -e PORT=${{ secrets.ENV_PORT }} \
-              -e MONGO_URI=${{ secrets.ENV_MONGO_URI }} \
-              -e JWT_SECRET=${{ secrets.ENV_JWT_SECRET }} \
+              -e "PORT=${{ secrets.ENV_PORT }}" \
+              -e "MONGO_URI=${{ secrets.ENV_MONGO_URI }}" \
+              -e "JWT_SECRET=${{ secrets.ENV_JWT_SECRET }}" \
               --name rbac-server ${{ secrets.DOCKER_USERNAME }}/rbac-server:latest
