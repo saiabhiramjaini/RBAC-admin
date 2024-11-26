@@ -5,6 +5,7 @@ import { TypeAnimation } from "react-type-animation";
 import { useInView } from "react-intersection-observer";
 import man1 from "@/assets/man1.svg";
 import man2 from "@/assets/man2.svg";
+import { useNavigate } from "react-router-dom";
 
 interface AnimatedSectionProps {
   children: React.ReactNode;
@@ -45,6 +46,7 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
 };
 
 export const HomePage = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200">
 
@@ -120,7 +122,9 @@ export const HomePage = () => {
               roles and permissions shouldn't feel like a chore.
             </p>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <Button className="px-8 py-4 text-lg text-blue-600 transition-colors duration-300 bg-black border border-white hover:bg-blue-700 hover:text-white">
+              <Button 
+              onClick={()=>{navigate("/")}}
+              className="px-8 py-4 text-lg text-blue-600 transition-colors duration-300 bg-black border border-white hover:bg-blue-700 hover:text-white">
                 Start managing!
               </Button>
             </motion.div>

@@ -5,14 +5,7 @@ import { backendURL } from "@/config";
 import { toast } from "react-hot-toast";
 import logo from "../../assets/logo.png";
 import { motion } from "framer-motion";
-import { 
-  Menu, 
-  X, 
-  Home, 
-  UserPlus, 
-  List, 
-  LogOut 
-} from "lucide-react";
+import { Menu, X, Home, UserPlus, List, LogOut } from "lucide-react";
 
 export const Navbar = () => {
   const username = localStorage.getItem("username");
@@ -35,8 +28,8 @@ export const Navbar = () => {
 
   const NavLinks = () => (
     <>
-      <motion.a 
-        href="/home" 
+      <motion.a
+        href="/home"
         className="flex items-center gap-2 text-white transition-colors hover:text-gray-300"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
@@ -46,8 +39,8 @@ export const Navbar = () => {
       </motion.a>
       {username && (
         <>
-          <motion.a 
-            href="/create" 
+          <motion.a
+            href="/create"
             className="flex items-center gap-2 text-white transition-colors hover:text-gray-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -55,8 +48,8 @@ export const Navbar = () => {
             <UserPlus size={20} />
             <span>Add Employee</span>
           </motion.a>
-          <motion.a 
-            href="/employeelist" 
+          <motion.a
+            href="/employeelist"
             className="flex items-center gap-2 text-white transition-colors hover:text-gray-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -75,11 +68,7 @@ export const Navbar = () => {
         {/* Logo and Mobile Menu Toggle */}
         <div className="flex items-center justify-between w-full md:w-auto">
           <div className="flex items-center gap-4">
-            <img 
-              src={logo} 
-              alt="Logo" 
-              className="w-10 h-10 rounded-full" 
-            />
+            <img src={logo} alt="Logo" className="w-10 h-10 rounded-full" />
             {username && (
               <div className="text-sm text-white md:hidden">
                 Welcome, {username}
@@ -89,13 +78,17 @@ export const Navbar = () => {
 
           {/* Mobile Menu Toggle */}
           <div className="md:hidden">
-            <Button 
-              variant="ghost" 
-              size="icon" 
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white hover:bg-gray-800"
+              className="text-white"
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMenuOpen ? (
+                <X size={24} className="text-white bg-white" />
+              ) : (
+                <Menu size={24} className="text-white" />
+              )}
             </Button>
           </div>
         </div>
@@ -124,10 +117,7 @@ export const Navbar = () => {
               </motion.div>
             </>
           ) : (
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 onClick={() => (window.location.href = "/")}
                 className="text-black bg-white hover:bg-gray-100"
@@ -140,16 +130,22 @@ export const Navbar = () => {
 
         {/* Mobile Menu Overlay */}
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="fixed inset-0 bg-black bg-opacity-90 md:hidden"
           >
-            <div className="flex flex-col items-center justify-center h-full space-y-6">
+            <div
+              className="flex flex-col items-center justify-center h-full space-y-6"
+              onClick={(e) => e.stopPropagation()} // Prevent propagation to parent
+            >
               <NavLinks />
               {username ? (
                 <Button
-                  onClick={handleLogout}
+                  onClick={() => {
+                    handleLogout();
+                    setIsMenuOpen(false); // Ensure menu closes after logout
+                  }}
                   className="flex items-center gap-2 text-black bg-white hover:bg-gray-100"
                 >
                   <LogOut size={16} />
@@ -157,13 +153,21 @@ export const Navbar = () => {
                 </Button>
               ) : (
                 <Button
-                  onClick={() => (window.location.href = "/")}
+                  onClick={() => {
+                    window.location.href = "/";
+                    setIsMenuOpen(false); // Close menu after navigating
+                  }}
                   className="text-black bg-white hover:bg-gray-100"
                 >
                   Sign In
                 </Button>
               )}
             </div>
+            {/* Close menu when clicking outside */}
+            <div
+              onClick={() => setIsMenuOpen(false)}
+              className="absolute inset-0"
+            ></div>
           </motion.div>
         )}
       </div>
