@@ -8,6 +8,7 @@ import { UpdateEmployeePage } from "./pages/UpdateEmployeePage";
 
 import "react-toastify/dist/ReactToastify.css";
 import { Toaster } from "react-hot-toast";
+import { Navbar } from "./components/ui/Navbar";
 
 export default function App() {
   const isLoggedIn = localStorage.getItem("username") !== null;
@@ -15,6 +16,7 @@ export default function App() {
   return (
     <>
       <BrowserRouter>
+      <Navbar/>
         <Routes>
           <Route
             path="/"

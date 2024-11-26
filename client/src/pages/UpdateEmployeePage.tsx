@@ -18,7 +18,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { backendURL } from "@/config";
 import { employeeSchema } from "@abhiram2k03/rbac-common";
 import { toast } from "react-hot-toast";
-import { Navbar } from "@/components/ui/Navbar";
 
 export const UpdateEmployeePage = () => {
   const { id } = useParams();
@@ -141,7 +140,6 @@ export const UpdateEmployeePage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <Navbar />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

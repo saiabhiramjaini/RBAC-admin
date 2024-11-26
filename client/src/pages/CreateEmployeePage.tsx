@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "react-hot-toast";
-import { Navbar } from "@/components/ui/Navbar";
 import {
   Select,
   SelectContent,
@@ -98,7 +97,7 @@ export const CreateEmployeePage = () => {
       );
       if (response.status === 201) {
         toast.success("Employee created successfully");
-        navigate("/employeelist"); // Assuming there's an employees list page
+        navigate("/employeelist"); 
       } else {
         toast.error(response.data.message);
       }
@@ -119,7 +118,6 @@ export const CreateEmployeePage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <Navbar />
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Navbar } from "@/components/ui/Navbar";
 import { Button } from "@/components/ui/button";
 import { motion, useAnimation } from "framer-motion";
 import { TypeAnimation } from "react-type-animation";
@@ -48,7 +47,6 @@ const AnimatedSection: React.FC<AnimatedSectionProps> = ({
 export const HomePage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200">
-      <Navbar />
 
       {/* Hero Section */}
       <section className="py-20 md:py-32">
