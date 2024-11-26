@@ -40,8 +40,6 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/rbac-server:latest
-            sudo docker stop rbac-server || true
-            sudo docker rm rbac-server || true
             sudo docker run -d \
               -p 8080:8080 \
               -e PORT=${{ secrets.ENV_PORT }} \
