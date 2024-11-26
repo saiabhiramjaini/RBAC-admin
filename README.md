@@ -41,8 +41,18 @@
 - **Frontend**: Vercel
 - **Common Package**: NPM
 - **Server**: CI/CD using GitHub workflows on AWS EC2
+   - **Docker**: Containerization
+   - **Nginx**: for reverse proxy
+   - **Certbot**: SSL certificate
 
+## Project Architecture
+![image](https://github.com/user-attachments/assets/9907d1fb-6ea3-46fd-be45-ce3354fa97d4)
 
+## Server Deployment Architecture
+![image](https://github.com/user-attachments/assets/72e62ca5-d324-4001-8cd9-c3bfdb686707)
+
+## Database schema
+![image](https://github.com/user-attachments/assets/2109aba0-883f-43f3-8749-ef24d228cef7)
 
 ## Client Structure
 
@@ -73,7 +83,9 @@ path="/update/:id" --> UpdateEmployeePage
     - **Constraints**:
       - Username must be unique
       - Password must have a minimum of 8 characters
-        
+
+![image](https://github.com/user-attachments/assets/f97213b9-b33a-49ea-a5eb-daa8daefc29a)
+
 
 2. **Login Page** (`/`)
     - **Fields**: Username, Password
@@ -81,34 +93,38 @@ path="/update/:id" --> UpdateEmployeePage
       - User must sign up first
       - Username must be unique
       - Password must have a minimum of 8 characters
-        
+
+![image](https://github.com/user-attachments/assets/607a20ed-a723-487d-a6bb-6a96dc693a57)
 
 3. **Dashboard Page** (`/home`)
     - Displays a welcome message
     - Navbar includes options like `Employee List`, `Logout`, etc.
     - Username is displayed in the navbar
-
+![image](https://github.com/user-attachments/assets/9225dcbc-9cff-495f-afec-a250583b3a68)
 
 4. **Create Employee Page** (`/create`)
       - Name: Text field
       - Email: Text field (should be unique)
       - Mobile No.: Text field (minimum of 10 characters)
-      - Designation: Dropdown
       - Gender: Radio buttons
-      - Course: Checkbox
+      - Status: Dropdown
+      - Roles: Checkbox
       - Image Upload: Only JPG/PNG
-        
+   **So Admin can add all the employee details and assign roles and set a status for them.**
+![image](https://github.com/user-attachments/assets/fcf12049-579d-466e-b2b9-c75098c7916d)
 
 5. **Employee List Page** (`/employeelist`)
     - Search functionality considers all fields in the table
     - List of employees with `Edit` and `Delete` actions
     - Clicking `Edit` passes the employee's ID as a parameter to the Update Employee Page
+![image](https://github.com/user-attachments/assets/4216ee99-8aa9-48c9-a545-c0d0b36a370f)
       
 
 6. **Update Employee Page** (`/update/:id`)
     - On load, the employee's data is fetched using the `id` and pre-filled in the form
     - Admin can edit the initial values
-      
+   **Here Admin can change the details along wwith status and permissions as well**
+![image](https://github.com/user-attachments/assets/f81fc5e1-ea88-46c1-8c46-c1ef41b98fd0)
 
 ### Authentication Check (isLoggedIn):
 
@@ -212,17 +228,72 @@ The server follows the **MVC architecture**.
 - Proceeds with the request if the user is authenticated.
 
 
+## Database Choice
+- **Database**: MongoDB
+- **ODM (Object Document Mapper)**: Mongoose
+- **Collections**: 2 primary collections
+
+### Collection 1: Login Collection
+- **Model Name**: Login
+- **Purpose**: User authentication and login management
+- **Key Fields**:
+  - `username`: Unique identifier for user login
+  - `password`: Stored credentials (To maintain privacy, this is be hashed)
+- **Automatic Tracking**: 
+  - `createdAt`: Timestamp of user account creation
+  - `updatedAt`: Timestamp of last user account modification
+
+![image](https://github.com/user-attachments/assets/e9bc7efa-e744-41e2-8947-88d72376b5ad)
+
+### Collection 2: Employee Collection
+- **Model Name**: Employee
+- **Purpose**: Store comprehensive employee information
+- **Key Fields**:
+  - `name`: Full name of the employee
+  - `email`: Unique identifier for each employee (enforced as unique)
+  - `mobile`: Contact number
+  - `gender`: Restricted to predefined gender options
+  - `permissions`: Array of access permissions
+  - `status`: Current employment status
+  - `image`: Employee profile image path or identifier
+- **Automatic Tracking**:
+  - `createdAt`: Timestamp of employee record creation
+  - `updatedAt`: Timestamp of last employee record modification
+
+![image](https://github.com/user-attachments/assets/a084c774-82f9-4725-9d9c-12ab2991e971)
+
+
+### Key Design Characteristics
+- Strict schema validation using Mongoose
+- Enum-based restrictions on certain fields (gender, permissions, status)
+- Unique constraints on sensitive fields like email
+- Automatic timestamp management
+- Modular approach with separate schemas for different entities
+
+
+
+
 
 ## Deployment Process
 
 ### Client:
 - Deployed on **Vercel**.
+![image](https://github.com/user-attachments/assets/d690d863-37ce-49e1-bcad-1aa161a7c124)
 
 ### Common Package:
 - Published on **NPM**.
+![image](https://github.com/user-attachments/assets/40754126-37b1-4525-861d-a3cf2fba56dd)
+
+
+### Containerization:
+- Used Docker for Containerization and the image will be uploaded by CI/CD to docker hub.
+![image](https://github.com/user-attachments/assets/9ca89622-e1cc-4f6f-bf60-1ba9d1a2c53c)
 
 ### Server:
 - CI/CD pipeline set up using **GitHub workflows** on **AWS EC2**.
+![image](https://github.com/user-attachments/assets/cee9cb03-635e-4a4d-8426-d4007a64ddab)
+
+
 
 #### Steps Followed:
 1. Created a **Dockerfile** and verified the image by building it locally.
@@ -236,7 +307,88 @@ The server follows the **MVC architecture**.
 9. Used **Certbot** to set up an SSL certificate for secure communication.
 
 
+## Setting Up Locally
 
-## Database
+### Prerequisites
+- **Node.js**: Ensure Node.js (v16 or higher) is installed.
+- **MongoDB**: Install MongoDB and run it locally.
+- **Docker** (optional): Required for containerization.
+- **Git**: Version control for cloning the repository.
 
+### Steps to Set Up
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/saiabhiramjaini/RBAC-admin.git
+   cd RBAC-admin
+   ```
+
+2. **Install Dependencies**
+   Navigate to the client and server directories and install dependencies.
+   ```bash
+   # For the client
+   cd client
+   npm install
+   cd ..
+
+   # For the server
+   cd server
+   npm install
+   cd ..
+   ```
+
+3. **Set Up Environment Variables**
+
+   Create `.env` files for both `client` and `server` directories:
+
+
+## Contribution Guide
+
+Contributions are welcome! Follow the steps below to contribute:
+
+### Steps to Contribute
+
+1. **Fork the Repository**
+   - Go to the GitHub repository and click the "Fork" button.
+
+2. **Clone the Forked Repository**
+   ```bash
+   git clone https://github.com/your-username/DealsDray.git
+   cd DealsDray
+   ```
+
+3. **Create a Branch**
+   Create a new branch for your feature or bug fix.
+   ```bash
+   git checkout -b feature-or-bugfix-name
+   ```
+
+4. **Make Changes**
+   - Implement your changes in the codebase.
+   - Ensure the code adheres to the project's coding standards.
+
+5. **Run Tests**
+   Test your changes locally to ensure they work as expected.
+
+6. **Commit Changes**
+   ```bash
+   git add .
+   git commit -m "Add meaningful commit message"
+   ```
+
+7. **Push Changes to GitHub**
+   ```bash
+   git push origin feature-or-bugfix-name
+   ```
+
+8. **Create a Pull Request**
+   - Go to the original repository and click "Pull Requests."
+   - Click "New Pull Request" and choose your forked branch.
+
+9. **Review Process**
+   - I will review your pull request.
+   - Make any requested changes, if necessary.
+
+10. **Merge**
+    - Once approved, your changes will be merged into the main branch.
 
